@@ -1,0 +1,87 @@
+# header information:
+HCap-500f|9.07
+
+# Views:
+Vdocumentation|doc
+Vicon|ic
+Vlayout|lay
+Vschematic|sch
+
+# Technologies:
+Tmocmos|ScaleFORmocmos()D300.0|mocmosAnalog()BT|mocmosNumberOfMetalLayers()I3
+
+# Cell Cap_500;1{ic}
+CCap_500;1{ic}||artwork|1673384048924|1673384182531|E
+Ngeneric:Facet-Center|art@0||0|0||||AV
+NBox|art@1||-14|4.5|15|15||
+NPin|pin@0||-17|20|1|1||
+NPin|pin@1||-17|12|1|1||
+NPin|pin@2||-11|20|1|1||
+NPin|pin@3||-11|12|1|1||
+Nschematic:Wire_Pin|pin@4||-17|20||||
+Nschematic:Wire_Pin|pin@5||-11|20||||
+Ngeneric:Invisible-Pin|pin@6||-14|4.5|||||ART_message(A40;D5)SCap 500 f
+AThicker|net@0|||FS900|pin@0||-17|20|pin@1||-17|12
+AThicker|net@1|||FS900|pin@2||-11|20|pin@3||-11|12
+Ep1||D5G2;|pin@4||U
+Ep2||D5G2;|pin@5||U
+X
+
+# Cell Cap_500;1{lay}
+CCap_500;1{lay}||mocmos|1673350878142|1673383507299||DRC_last_good_drc_area_date()G1673382563562|DRC_last_good_drc_bit()I18|DRC_last_good_drc_date()G1673382563562
+Ngeneric:Facet-Center|art@0||0|0||||AV
+NMetal-1-Polysilicon-2-Con|contact@0||-59.5|-1||70||
+NMetal-1-Polysilicon-1-Con|contact@1||-72.5|-1||85||
+NMetal-1-Polysilicon-2-Con|contact@2||-24.5|-36||50|R|
+NMetal-1-Polysilicon-2-Con|contact@3||10.5|-1||70||
+NMetal-1-Polysilicon-2-Con|contact@4||-24.5|34||50|R|
+NMetal-1-Pin|pin@1||-59.5|-36||||
+NMetal-1-Pin|pin@2||10.5|-36||||
+NPolysilicon-2-Pin|pin@5||-24.5|-1||||
+NPolysilicon-2-Pin|pin@6||-24.5|-1||||
+NPolysilicon-1-Pin|pin@7||-24|-0.5||||
+NPolysilicon-1-Pin|pin@8||-24|-1||||
+Ngeneric:Invisible-Pin|pin@9||-29.5|46|||||SIM_spice_card(D5G4;)SC1 p2 p1 500f
+AMetal-1|net@1||1|S0|contact@2||-24.5|-36|pin@1||-59.5|-36
+AMetal-1|net@2||1|S900|contact@0||-59.5|-1|pin@1||-59.5|-36
+AMetal-1|net@3||1|S1800|contact@2||-24.5|-36|pin@2||10.5|-36
+AMetal-1|net@4||1|S900|contact@3||10.5|-1|pin@2||10.5|-36
+AMetal-1|net@5||1|S0|contact@3||10.5|34|contact@4||-24.5|34
+AMetal-1|net@6||1|S0|contact@4||-24.5|34|contact@0||-59.5|34
+APolysilicon-2|net@7|||S900|pin@5||-24.5|-1|pin@6||-24.5|-1
+APolysilicon-2|net@8||73|IS1800|contact@0||-59.5|-1|pin@6||-24.5|-1
+APolysilicon-1|net@9|||S900|pin@7||-24|-0.5|pin@8||-24|-1
+APolysilicon-1|net@10||88|IS1800|contact@1||-72.5|-1|pin@8||-24|-1
+Ep1||D5G2;|contact@1||U
+Ep2||D5G2;|contact@0||U
+X
+
+# Cell Cap_500;1{sch}
+CCap_500;1{sch}||schematic|1673383919801|1673384202715|
+ICap_500;1{ic}|Cap_500@0||-10|1.5|||D5G4;
+Ngeneric:Facet-Center|art@0||0|0||||AV
+NCapacitor|cap@0||-10|2|||||SCHEM_capacitance(D5G1;)S500f
+NOff-Page|conn@0||-10|10.5|||RRR|
+NOff-Page|conn@1||-10|-6.5|||R|
+Awire|net@0|||2700|cap@0|a|-10|4|conn@0|y|-10|8.5
+Awire|net@1|||900|cap@0|b|-10|0|conn@1|y|-10|-4.5
+Ep1||D5G2;|conn@1|a|U
+Ep2||D5G2;|conn@0|y|U
+X
+
+# Cell Nota;1{doc}
+CNota;1{doc}||artwork|1673384266444|1673384371663||FACET_message()S["A célula \"Cap_500\" é tratada como um subcircuito.","","Para simular o capacitor no LTSpice, fazer a extração do circuito \"teste\", retirar aquele cabeçalho, e acrescentar antes do subcircuito, as seguintes linhas:","",V1 N001 0 AC 1 0,R1 Out N001 100k,.ac dec 100 100 1G,.backanno]
+Ngeneric:Facet-Center|art@0||0|0||||AV
+X
+
+# Cell teste;1{lay}
+Cteste;1{lay}||mocmos|1673383535429|1673384438170|
+ICap_500;1{lay}|Cap_500@0||5.5|-1.5|||D5G4;
+Ngeneric:Facet-Center|art@0||0|0||||AV
+NMetal-1-Pin|pin@0||-67|52.5||||
+NMetal-1-Pin|pin@1||-54|53||||
+AMetal-1|net@0||1|S2700|Cap_500@0|p1|-67|-2.5|pin@0||-67|52.5
+AMetal-1|net@1||1|S2700|Cap_500@0|p2|-54|-2.5|pin@1||-54|53
+Egnd||D5G2;|pin@0||U
+EIn|out|D5G2;|pin@1||U
+X

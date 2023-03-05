@@ -1,0 +1,182 @@
+*** SPICE deck for cell 555_total{lay} from library portas
+*** Created on seg. jan. 09, 2023 11:00:12
+*** Last revised on dom. fev. 12, 2023 20:52:29
+*** Written on dom. fev. 12, 2023 20:53:36 by Electric VLSI Design System, version 9.07
+*** Layout tech: mocmos, foundry MOSIS
+*** UC SPICE *** , MIN_RESIST 4.0, MIN_CAPAC 0.1FF
+*CMOS/BULK-NWELL (PRELIMINARY PARAMETERS)
+V1 VDD 0 5
+R1 VDD Tresh 12k
+C2 Tresh 0 470µ
+V2 Vpulse 0 PULSE(0 5 1 1m 1m 100m 50)
+C1 0 Cont 10n
+S1 0 Trigger Vpulse 0 MySwitch
+R2 VDD Trigger 10k
+R3 Out 0 1k
+R4 Disch Tresh 1m
+R5 VDD Reset 1m
+.global VDD
+.include C5_models.mod
+.tran 0 30 0 1m
+.model MySwitch SW(Ron=.1 Roff=10Meg Vt=1 Vh=0 Lser=10n Vser=0)
+.backanno
+
+*** SUBCIRCUIT portas__inversor FROM CELL inversor{lay}
+.SUBCKT portas__inversor A gnd vdd Y
+Mnmos@0 Y A gnd gnd NMOS L=0.6U W=3U AS=7.65P AD=4.95P PS=15.9U PD=9.3U
+Mpmos@0 Y A vdd vdd PMOS L=0.6U W=3U AS=7.65P AD=4.95P PS=15.9U PD=9.3U
+.ENDS portas__inversor
+
+*** SUBCIRCUIT portas__nand2 FROM CELL nand2{lay}
+.SUBCKT portas__nand2 A B gnd vdd Y
+Mnmos@0 net@2 A gnd gnd NMOS L=0.6U W=3U AS=7.65P AD=2.7P PS=15.9U PD=4.8U
+Mnmos@1 Y B net@2 gnd NMOS L=0.6U W=3U AS=2.7P AD=3.45P PS=4.8U PD=6.3U
+Mpmos@0 Y A vdd vdd PMOS L=0.6U W=3U AS=6.3P AD=3.45P PS=12.6U PD=6.3U
+Mpmos@1 vdd B Y vdd PMOS L=0.6U W=3U AS=3.45P AD=6.3P PS=6.3U PD=12.6U
+.ENDS portas__nand2
+*** WARNING: no ground connection for N-transistor wells in cell 'nand3{lay}'
+
+*** SUBCIRCUIT portas__nand3 FROM CELL nand3{lay}
+.SUBCKT portas__nand3 A B C gnd vdd Y
+Mnmos@0 net@2 C gnd gnd NMOS L=0.6U W=3U AS=7.65P AD=2.7P PS=15.9U PD=4.8U
+Mnmos@1 net@1 B net@2 gnd NMOS L=0.6U W=3U AS=2.7P AD=2.7P PS=4.8U PD=4.8U
+Mnmos@2 Y A net@1 gnd NMOS L=0.6U W=3U AS=2.7P AD=3.825P PS=4.8U PD=7.05U
+Mpmos@0 Y C vdd vdd PMOS L=0.6U W=3U AS=4.35P AD=3.825P PS=8.5U PD=7.05U
+Mpmos@1 vdd B Y vdd PMOS L=0.6U W=3U AS=3.825P AD=4.35P PS=7.05U PD=8.5U
+Mpmos@2 Y A vdd vdd PMOS L=0.6U W=3U AS=4.35P AD=3.825P PS=8.5U PD=7.05U
+.ENDS portas__nand3
+
+*** SUBCIRCUIT portas__SR_latch FROM CELL SR_latch{lay}
+.SUBCKT portas__SR_latch Clear gnd Q Qb R S vdd
+Xinversor@0 R gnd vdd net@35 portas__inversor
+Xnand2@1 net@2 Qb gnd vdd Q portas__nand2
+Xnand2@2 S Clear gnd vdd net@2 portas__nand2
+Xnand3@0 Q Clear net@35 gnd vdd Qb portas__nand3
+.ENDS portas__SR_latch
+
+*** SUBCIRCUIT portas__buffer FROM CELL buffer{lay}
+.SUBCKT portas__buffer A gnd vdd Y
+Xinversor@0 A gnd vdd net@1 portas__inversor
+Xinversor@1 net@1 gnd vdd Y portas__inversor
+.ENDS portas__buffer
+
+*** SUBCIRCUIT portas__buffer_saida FROM CELL buffer_saida{lay}
+.SUBCKT portas__buffer_saida gnd in out vdd
+Mnmos@17 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@18 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@19 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@20 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@21 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@22 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@23 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@24 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@25 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@26 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@27 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@28 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@29 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@30 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@31 out net@392 gnd gnd NMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mnmos@32 gnd net@392 out gnd NMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mnmos@33 gnd in net@392 gnd NMOS L=0.6U W=24U AS=39.6P AD=27.212P PS=51.3U PD=32.753U
+Mpmos@17 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@18 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@19 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@20 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@21 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@22 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@23 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@24 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@25 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@26 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@27 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@28 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@29 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@30 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@31 out net@392 vdd vdd PMOS L=0.6U W=24U AS=27.212P AD=21.6P PS=32.753U PD=25.8U
+Mpmos@32 vdd net@392 out vdd PMOS L=0.6U W=24U AS=21.6P AD=27.212P PS=25.8U PD=32.753U
+Mpmos@33 vdd in net@392 vdd PMOS L=0.6U W=24U AS=39.6P AD=27.212P PS=51.3U PD=32.753U
+.ENDS portas__buffer_saida
+
+*** SUBCIRCUIT portas__par_dif FROM CELL par_dif{lay}
+.SUBCKT portas__par_dif gnd in+ in- Mirror out vdd
+Mnmos@0 gnd net@17 net@17 gnd NMOS L=1.2U W=8.4U AS=17.22P AD=8.685P PS=21.9U PD=13.2U
+Mnmos@1 out net@17 gnd gnd NMOS L=1.2U W=8.4U AS=8.685P AD=17.22P PS=13.2U PD=21.9U
+Mpmos@0 vdd Mirror net@1 vdd PMOS L=1.2U W=24U AS=26.325P AD=126.45P PS=32.35U PD=203.43U
+Mpmos@1 net@1 Mirror vdd vdd PMOS L=1.2U W=24U AS=126.45P AD=26.325P PS=203.43U PD=32.35U
+Mpmos@2 out in- net@1 vdd PMOS L=1.2U W=21U AS=26.325P AD=17.22P PS=32.35U PD=21.9U
+Mpmos@3 net@1 in- out vdd PMOS L=1.2U W=21U AS=17.22P AD=26.325P PS=21.9U PD=32.35U
+Mpmos@4 net@17 in+ net@1 vdd PMOS L=1.2U W=21U AS=26.325P AD=17.22P PS=32.35U PD=21.9U
+Mpmos@5 net@1 in+ net@17 vdd PMOS L=1.2U W=21U AS=17.22P AD=26.325P PS=21.9U PD=32.35U
+.ENDS portas__par_dif
+
+*** SUBCIRCUIT portas__comparador FROM CELL comparador{lay}
+.SUBCKT portas__comparador gnd I_bias in+ in- out vdd
+Xbuffer@0 net@40 gnd vdd out portas__buffer
+Xpar_dif@0 gnd in+ in- I_bias net@40 vdd portas__par_dif
+Mpmos@0 I_bias I_bias vdd vdd PMOS L=1.2U W=24U AS=114.525P AD=21.6P PS=152.7U PD=25.8U
+Mpmos@1 vdd I_bias I_bias vdd PMOS L=1.2U W=24U AS=21.6P AD=114.525P PS=25.8U PD=152.7U
+.ENDS portas__comparador
+
+*** SUBCIRCUIT portas__Cap_500 FROM CELL Cap_500{lay}
+.SUBCKT portas__Cap_500 p1 p2
+
+* Spice Code nodes in cell cell 'Cap_500{lay}'
+C1 p2 p1 500f
+.ENDS portas__Cap_500
+
+*** SUBCIRCUIT portas__delay FROM CELL delay{lay}
+.SUBCKT portas__delay gnd in out vdd
+XCap_500@0 net@38 gnd portas__Cap_500
+XCap_500@1 net@32 gnd portas__Cap_500
+Xbuffer@0 net@32 gnd vdd out portas__buffer
+Xinversor@2 in gnd vdd net@46 portas__inversor
+Xinversor@3 net@38 gnd vdd net@49 portas__inversor
+Rp2res@4 net@81 net@49 5k
+Rp2res@5 net@81 net@32 5k
+Rp2res@6 net@82 net@46 5k
+Rp2res@7 net@82 net@38 5k
+.ENDS portas__delay
+*** WARNING: no ground connection for N-transistor wells in cell 'espelho_555{lay}'
+
+*** SUBCIRCUIT portas__espelho_555 FROM CELL espelho_555{lay}
+.SUBCKT portas__espelho_555 gnd I_out_1 I_out_2 vdd
+Mnmos@1 gnd net@25 net@25 gnd NMOS L=1.2U W=8.4U AS=7.56P AD=68.685P PS=10.2U PD=105.41U
+Mnmos@2 I_out_1 net@25 gnd gnd NMOS L=1.2U W=8.4U AS=68.685P AD=7.56P PS=105.41U PD=10.2U
+Mnmos@3 gnd net@25 I_out_1 gnd NMOS L=1.2U W=8.4U AS=7.56P AD=68.685P PS=10.2U PD=105.41U
+Mnmos@4 I_out_2 net@25 gnd gnd NMOS L=1.2U W=8.4U AS=68.685P AD=7.56P PS=105.41U PD=10.2U
+Mnmos@5 gnd net@25 I_out_2 gnd NMOS L=1.2U W=8.4U AS=7.56P AD=68.685P PS=10.2U PD=105.41U
+Mnmos@6 net@25 net@25 gnd gnd NMOS L=1.2U W=8.4U AS=68.685P AD=7.56P PS=105.41U PD=10.2U
+Rp2res@0 net@83 net@25 10k
+Rp2res@1 net@83 net@84 10k
+Rp2res@2 net@85 net@84 10k
+Rp2res@3 net@85 net@86 10k
+Rp2res@4 net@87 net@86 10k
+Rp2res@5 net@87 net@88 10k
+Rp2res@6 net@89 net@88 10k
+Rp2res@7 net@89 net@90 10k
+Rp2res@8 net@91 net@90 10k
+Rp2res@9 net@91 vdd 10k
+.ENDS portas__espelho_555
+
+*** TOP LEVEL CELL: 555_total{lay}
+XSR_latch@0 Reset gnd net@166 net@175 net@150 net@141 vdd portas__SR_latch
+Xbuffer@0 net@297 gnd vdd net@141 portas__buffer
+Xbuffer@3 net@307 gnd vdd net@150 portas__buffer
+Xbuffer_s@0 gnd net@175 Out vdd portas__buffer_saida
+Xcomparad@2 gnd net@109 Tresh Cont net@297 vdd portas__comparador
+Xcomparad@3 gnd net@108 net@47 Trigger net@307 vdd portas__comparador
+Xdelay@0 gnd net@166 net@241 vdd portas__delay
+Xespelho_@0 gnd net@109 net@108 vdd portas__espelho_555
+Mnmos@4 gnd net@241 Disch gnd NMOS L=0.6U W=24U AS=21.6P AD=26.1P PS=25.8U PD=32.175U
+Mnmos@12 Disch net@241 gnd gnd NMOS L=0.6U W=24U AS=26.1P AD=21.6P PS=32.175U PD=25.8U
+Mnmos@13 gnd net@241 Disch gnd NMOS L=0.6U W=24U AS=21.6P AD=26.1P PS=25.8U PD=32.175U
+Mnmos@14 Disch net@241 gnd gnd NMOS L=0.6U W=24U AS=26.1P AD=21.6P PS=32.175U PD=25.8U
+Mnmos@15 gnd net@241 Disch gnd NMOS L=0.6U W=24U AS=21.6P AD=26.1P PS=25.8U PD=32.175U
+Mnmos@16 Disch net@241 gnd gnd NMOS L=0.6U W=24U AS=26.1P AD=21.6P PS=32.175U PD=25.8U
+Mnmos@17 gnd net@241 Disch gnd NMOS L=0.6U W=24U AS=21.6P AD=26.1P PS=25.8U PD=32.175U
+Mnmos@18 Disch net@241 gnd gnd NMOS L=0.6U W=24U AS=26.1P AD=21.6P PS=32.175U PD=25.8U
+Rp2res@3 Cont vdd 10k
+Rp2res@5 Cont net@47 10k
+Rp2res@7 gnd net@47 10k
+.END
