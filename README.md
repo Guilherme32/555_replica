@@ -1,5 +1,7 @@
 # 555 Replica
-![Print do layout final](555.svg "Print do layout final")
+<p align="center">
+  <img src="555.svg" />
+</p>
 
 O repositório guarda a réplica do CI 555 desenvolvido na disciplina de projeto de circuitos integrados da UFJF, no semestre 2022.3. Projetado por Guilherme Sampaio, Diego de Souza e Wesley Cantarino.
 
